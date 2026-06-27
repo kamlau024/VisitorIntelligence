@@ -1,26 +1,203 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+/*
+  Visitor Intelligence — "Warm editorial intelligence" design system.
+  Light-first, cream/ink neutrals, terracotta accent, earthy data-viz.
+  Raw values live in :root; @theme inline exposes them as Tailwind utilities
+  (bg-paper, text-ink, border-line, bg-accent, text-sage, etc.).
+*/
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surfaces */
+  --paper: #f6f1e9;        /* page background — warm cream */
+  --paper-2: #efe8db;      /* recessed wells, alt rows */
+  --surface: #fffdf9;      /* cards / panels — warm white */
+  --surface-2: #fbf7f0;    /* subtle raised */
+
+  /* Ink */
+  --ink: #211c18;          /* primary text — warm near-black */
+  --ink-muted: #6f655b;    /* secondary text */
+  --ink-subtle: #9c9085;   /* tertiary / captions */
+  --line: #e7ded1;         /* hairline borders */
+  --line-strong: #d8ccba;  /* stronger dividers */
+
+  /* Accent — terracotta */
+  --accent: #c2552f;
+  --accent-hover: #a8451f;
+  --accent-press: #8f3a18;
+  --accent-soft: #f3e0d4;  /* tints / washes */
+  --accent-ink: #fbf7f0;   /* text on accent */
+
+  /* Data-viz earth palette */
+  --clay: #c2552f;
+  --ochre: #d99a2b;
+  --sage: #6f8a5f;
+  --teal: #4f7785;
+  --plum: #8a5a6e;
+  --olive: #9a8b4f;
+
+  /* Confidence scale (calm, never alarmist) */
+  --conf-high: #5c7c5a;
+  --conf-high-soft: #e7eede;
+  --conf-med: #b07d2b;
+  --conf-med-soft: #f6ead3;
+  --conf-low: #a8634a;
+  --conf-low-soft: #f1e2d9;
+
+  /* Semantic */
+  --positive: #4f7355;
+  --positive-soft: #e7efe3;
+  --negative: #b23a2e;
+  --negative-soft: #f4e1dd;
+
+  --radius: 0.625rem;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-press: var(--accent-press);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+
+  --color-clay: var(--clay);
+  --color-ochre: var(--ochre);
+  --color-sage: var(--sage);
+  --color-teal: var(--teal);
+  --color-plum: var(--plum);
+  --color-olive: var(--olive);
+
+  --color-conf-high: var(--conf-high);
+  --color-conf-high-soft: var(--conf-high-soft);
+  --color-conf-med: var(--conf-med);
+  --color-conf-med-soft: var(--conf-med-soft);
+  --color-conf-low: var(--conf-low);
+  --color-conf-low-soft: var(--conf-low-soft);
+
+  --color-positive: var(--positive);
+  --color-positive-soft: var(--positive-soft);
+  --color-negative: var(--negative);
+  --color-negative-soft: var(--negative-soft);
+
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-hanken);
+  --font-mono: var(--font-jetbrains);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 14px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: "ss01", "cv01";
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display), Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  /* Warm, slim scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-strong) transparent;
+  }
+  *::-webkit-scrollbar { width: 9px; height: 9px; }
+  *::-webkit-scrollbar-thumb {
+    background: var(--line-strong);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* Editorial eyebrow / kicker label */
+  .kicker {
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--ink-subtle);
+  }
+  /* Fine top-light card edge for depth on cream */
+  .edge {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.7) inset,
+      0 1px 2px rgba(33, 28, 24, 0.04),
+      0 8px 24px -16px rgba(33, 28, 24, 0.18);
+  }
+  .edge-lg {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.7) inset,
+      0 2px 4px rgba(33, 28, 24, 0.05),
+      0 24px 60px -28px rgba(33, 28, 24, 0.28);
+  }
+  /* Subtle grain for marketing atmosphere */
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+  .tnum { font-variant-numeric: tabular-nums; }
+}
+
+@keyframes vi-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-rise { animation: vi-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes vi-pulse-dot {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1); }
+}
+.animate-pulse-dot { animation: vi-pulse-dot 1.2s ease-in-out infinite; }
+
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+.animate-accordion-down { animation: accordion-down 0.22s ease-out; }
+.animate-accordion-up { animation: accordion-up 0.22s ease-out; }
+
+@keyframes vi-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }

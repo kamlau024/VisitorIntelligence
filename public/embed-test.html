@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Embed test — a plain HTML site</title>
+  <style>
+    :root { color-scheme: light; }
+    body {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      background: #fcfbf9;
+      color: #2a2a2a;
+      line-height: 1.6;
+    }
+    .bar { background: #1d3a34; color: #cfe3dd; font-family: system-ui, sans-serif; font-size: 13px; padding: 8px 16px; text-align: center; }
+    .bar b { color: #fff; }
+    header { border-bottom: 1px solid #e7e2da; }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; font-family: system-ui, sans-serif; }
+    nav .logo { font-weight: 700; font-size: 18px; letter-spacing: -0.01em; }
+    nav a { color: #555; text-decoration: none; font-size: 14px; margin-left: 22px; }
+    article { padding: 40px 0 80px; }
+    .kick { font-family: system-ui, sans-serif; text-transform: uppercase; letter-spacing: .16em; font-size: 12px; color: #9a7; }
+    h1 { font-size: 40px; line-height: 1.1; margin: 10px 0 8px; }
+    .by { font-family: system-ui, sans-serif; color: #888; font-size: 14px; }
+    .lede { font-size: 20px; color: #444; }
+    .note { background: #f1efe9; border-left: 3px solid #1d3a34; padding: 14px 18px; font-size: 15px; margin: 28px 0; }
+    p { margin: 16px 0; }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    Embed test · This is a <b>plain HTML page</b> (not the React app, not a dashboard).
+    The widget below is mounted entirely by <b>vi-widget.js</b> into a shadow DOM. Click "Ask Maya" ↘
+  </div>
+
+  <header>
+    <div class="wrap">
+      <nav>
+        <span class="logo">Generic Garden Journal</span>
+        <span>
+          <a href="#">Home</a><a href="#">Grow</a><a href="#">About</a>
+        </span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <article>
+      <div class="kick">Kitchen Garden · June</div>
+      <h1>A loaf to go with the first tomatoes</h1>
+      <div class="by">By a totally different site that happens to embed the widget</div>
+      <p class="lede">
+        This page intentionally uses its own fonts, colors, and layout — nothing like
+        Visitor Intelligence's design system. That's the point: the widget arrives as a
+        single script tag and renders inside an isolated shadow root, so it never inherits
+        or clashes with these styles.
+      </p>
+      <p>
+        Imagine this is any creator's Ghost, Squarespace, or hand-built HTML site. The only
+        Visitor Intelligence code on the page is the one line at the bottom of this file.
+      </p>
+      <div class="note">
+        Try it: open the launcher and ask <em>"I don't have a Dutch oven — what can I use?"</em>
+        You'll get an author-voiced answer with a quiet affiliate chip and a confidence read —
+        the exact same product experience as the in-app demo.
+      </div>
+      <p>
+        Everything you see in that corner — the launcher, the panel, the chat, the
+        author's-pick chip, the confidence bar — is painted by the embedded script, fully
+        sandboxed from this page.
+      </p>
+    </article>
+  </main>
+
+  <!-- The entire Visitor Intelligence install: one line. -->
+  <script src="/vi-widget.js" data-site-id="garden_demo" data-brand="Maya" defer></script>
+</body>
+</html>
