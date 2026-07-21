@@ -18,7 +18,7 @@
 - All pages share `templates/tokens.css` (palette lifted from `demo_pdf/example-prospect/page3_wireframe.html`; widget accent terracotta `#C2552F`).
 - The example CSVs contain mixed UTF-8/cp1252 bytes; all CSV reads go through `csv_to_json.mjs`. Rendered output must contain no U+FFFD (`�`) characters.
 - Story discipline: no affiliate chip, no draft scaffold, no "Write it for me," no credits meter, no stat/summary boxes, no "Intent by [type]" section, no app left-nav, no trend badges, no "New" pills, no CTAs on the gap card.
-- Test command for skill scripts: `node --test .claude/skills/demo-pdf/tests/`.
+- Test command for skill scripts: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'`.
 - Commit after every task with the trailer `Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>`.
 
 ---
@@ -164,7 +164,7 @@ Note: this fixture test reads the real CSV relative to the repo root, so `node -
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `node --test .claude/skills/demo-pdf/tests/csv_to_json.test.mjs`
+Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'csv_to_json.test.mjs`
 Expected: FAIL — `Cannot find module '../scripts/csv_to_json.mjs'`.
 
 - [ ] **Step 3: Write the implementation**
@@ -269,7 +269,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `node --test .claude/skills/demo-pdf/tests/csv_to_json.test.mjs`
+Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'csv_to_json.test.mjs`
 Expected: all 6 tests PASS.
 
 - [ ] **Step 5: CLI smoke on real data**
@@ -382,7 +382,7 @@ test("checkAll returns one result per url", async () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `node --test .claude/skills/demo-pdf/tests/verify_urls.test.mjs`
+Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'verify_urls.test.mjs`
 Expected: FAIL — `Cannot find module '../scripts/verify_urls.mjs'`.
 
 - [ ] **Step 3: Write the implementation**
@@ -465,7 +465,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `node --test .claude/skills/demo-pdf/tests/verify_urls.test.mjs`
+Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'verify_urls.test.mjs`
 Expected: all 4 tests PASS.
 
 - [ ] **Step 5: Commit**
@@ -522,7 +522,7 @@ test("captures a 1440px-wide PNG of a local page", async () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `node --test .claude/skills/demo-pdf/tests/capture_homepage.test.mjs`
+Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'capture_homepage.test.mjs`
 Expected: FAIL — `Cannot find module '../scripts/capture_homepage.mjs'`.
 
 - [ ] **Step 3: Write the implementation**
@@ -579,7 +579,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
 
 - [ ] **Step 4: Run test to verify it passes**
 
-Run: `node --test .claude/skills/demo-pdf/tests/capture_homepage.test.mjs`
+Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'capture_homepage.test.mjs`
 Expected: PASS.
 
 - [ ] **Step 5: Live smoke against the real prospect site**
@@ -672,7 +672,7 @@ test("mergePdfs concatenates pages in order", async () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `node --test .claude/skills/demo-pdf/tests/render_pdf.test.mjs`
+Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'render_pdf.test.mjs`
 Expected: FAIL — `Cannot find module '../scripts/render_pdf.mjs'`.
 
 - [ ] **Step 3: Write the implementation**
@@ -745,12 +745,12 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `node --test .claude/skills/demo-pdf/tests/render_pdf.test.mjs`
+Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'render_pdf.test.mjs`
 Expected: both tests PASS.
 
 - [ ] **Step 5: Run the full script test suite**
 
-Run: `node --test .claude/skills/demo-pdf/tests/`
+Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'`
 Expected: all tests across the four test files PASS.
 
 - [ ] **Step 6: Commit**
@@ -1521,7 +1521,7 @@ All must hold:
 - Page 2: left column exactly `Favorite painting products`, `Exterior and porch projects`, `DIY curtains and window treatments`, `Furniture refinishing help`, `Walls floors and wallpaper projects`; featured = `Favorite painting products` with its 3 questions and 3 post titles; all numbers masked.
 - Page 3: faux stone gap card only — title `Faux stone facade series`, `touched in 4 of your posts`, 4 questions, 4 posts in order, bridge line verbatim.
 - `verify_urls.mjs` log shows 0 failures.
-- Full test suite still green: `node --test .claude/skills/demo-pdf/tests/`
+- Full test suite still green: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'`
 - QA checklist in SKILL.md fully checked; report each box's status.
 
 - [ ] **Step 3: Commit the deliverable (and any SKILL.md fixes)**
