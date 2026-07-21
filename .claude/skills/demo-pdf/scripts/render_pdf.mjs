@@ -13,7 +13,7 @@ export async function renderPageToPdf(htmlPath, outPdfPath, browser) {
   const page = await browser.newPage({ viewport: { width: PAGE_WIDTH_IN * CSS_PPI, height: 1000 } });
   try {
     await page.goto(pathToFileURL(htmlPath).href, { waitUntil: "networkidle" });
-    const heightPx = await page.evaluate(() => document.documentElement.scrollHeight);
+    const heightPx = await page.evaluate(() => document.body.scrollHeight);
     await page.pdf({
       path: outPdfPath,
       width: `${PAGE_WIDTH_IN}in`,

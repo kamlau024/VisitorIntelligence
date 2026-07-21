@@ -103,16 +103,6 @@ copies:
 
     node .claude/skills/demo-pdf/scripts/render_pdf.mjs demo_pdf/<prospect>/demo.pdf demo_pdf/<prospect>/build/page1.html demo_pdf/<prospect>/build/page2.html demo_pdf/<prospect>/build/page3.html
 
-Known script limitation: `render_pdf.mjs` measures each page's height with
-`document.documentElement.scrollHeight`, which floors to the browser's
-1000px initial viewport for any page whose real content is shorter (e.g. a
-lean page 2 with few clusters, or a page 3 with a short gap card). The
-resulting PDF page gets padded with blank space at the bottom instead of
-trimming to content — visible as a blank region in step 6 QA. No
-template/data change fixes this from the filled HTML; it needs a script
-fix (`document.body.scrollHeight` instead) that is out of scope for a
-template-filling run. Check for it explicitly in step 6.
-
 ### 6. QA (all must pass before you call it done)
 
 Read `demo.pdf` (Read tool) and check every page:
@@ -125,9 +115,7 @@ Read `demo.pdf` (Read tool) and check every page:
 - [ ] Page 2: 5 clusters, correct featured one, all numbers `X`/`+XX%`.
 - [ ] Page 3: single gap card, plain-text `Covers:` lines, bridge line
       closes the card, no CTA.
-- [ ] No clipped text, no overflowing boxes, no blank regions (see the
-      render-height limitation noted in step 5 — check pages whose content
-      is shorter than 1000px especially closely).
+- [ ] No clipped text, no overflowing boxes, no blank regions.
 - [ ] Footer disclosure ("demo mockup — the widget is not installed…")
       present on page 1.
 
