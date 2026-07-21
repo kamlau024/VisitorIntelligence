@@ -164,7 +164,7 @@ Note: this fixture test reads the real CSV relative to the repo root, so `node -
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'csv_to_json.test.mjs`
+Run: `node --test .claude/skills/demo-pdf/tests/csv_to_json.test.mjs`
 Expected: FAIL — `Cannot find module '../scripts/csv_to_json.mjs'`.
 
 - [ ] **Step 3: Write the implementation**
@@ -269,7 +269,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'csv_to_json.test.mjs`
+Run: `node --test .claude/skills/demo-pdf/tests/csv_to_json.test.mjs`
 Expected: all 6 tests PASS.
 
 - [ ] **Step 5: CLI smoke on real data**
@@ -382,7 +382,7 @@ test("checkAll returns one result per url", async () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'verify_urls.test.mjs`
+Run: `node --test .claude/skills/demo-pdf/tests/verify_urls.test.mjs`
 Expected: FAIL — `Cannot find module '../scripts/verify_urls.mjs'`.
 
 - [ ] **Step 3: Write the implementation**
@@ -465,7 +465,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'verify_urls.test.mjs`
+Run: `node --test .claude/skills/demo-pdf/tests/verify_urls.test.mjs`
 Expected: all 4 tests PASS.
 
 - [ ] **Step 5: Commit**
@@ -522,7 +522,7 @@ test("captures a 1440px-wide PNG of a local page", async () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'capture_homepage.test.mjs`
+Run: `node --test .claude/skills/demo-pdf/tests/capture_homepage.test.mjs`
 Expected: FAIL — `Cannot find module '../scripts/capture_homepage.mjs'`.
 
 - [ ] **Step 3: Write the implementation**
@@ -579,7 +579,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
 
 - [ ] **Step 4: Run test to verify it passes**
 
-Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'capture_homepage.test.mjs`
+Run: `node --test .claude/skills/demo-pdf/tests/capture_homepage.test.mjs`
 Expected: PASS.
 
 - [ ] **Step 5: Live smoke against the real prospect site**
@@ -672,7 +672,7 @@ test("mergePdfs concatenates pages in order", async () => {
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'render_pdf.test.mjs`
+Run: `node --test .claude/skills/demo-pdf/tests/render_pdf.test.mjs`
 Expected: FAIL — `Cannot find module '../scripts/render_pdf.mjs'`.
 
 - [ ] **Step 3: Write the implementation**
@@ -745,7 +745,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) {
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `node --test '.claude/skills/demo-pdf/tests/*.test.mjs'render_pdf.test.mjs`
+Run: `node --test .claude/skills/demo-pdf/tests/render_pdf.test.mjs`
 Expected: both tests PASS.
 
 - [ ] **Step 5: Run the full script test suite**
