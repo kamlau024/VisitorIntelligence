@@ -53,11 +53,11 @@ name drives the "Ask {author}" widget branding; it is intentionally not in the C
 ```mermaid
 graph LR
     A[CSVs in prospect folder] --> B[Agent: parse + normalize encoding]
-    U[Target homepage URL from page1 CSV] --> D[capture_homepage.py]
-    B --> C[verify_urls.py — all source URLs must resolve]
+    U[Target homepage URL from page1 CSV] --> D[capture_homepage.mjs]
+    B --> C[verify_urls.mjs — all source URLs must resolve]
     C --> E[Agent fills page1/2/3 templates]
     D --> E
-    E --> F[render_pdf.py — 3 tall pages, merged]
+    E --> F[render_pdf.mjs — 3 tall pages, merged]
     F --> G[Agent visual QA on rendered pages]
     G --> H[demo.pdf in prospect folder]
 ```
@@ -130,7 +130,7 @@ All pages: Letter width (8.5 in), height as tall as content requires, shared
 1. **Verbatim labels.** Every cluster label renders exactly as the CSV's
    `cluster_name` (`expected_consolidation_group` values). Before finishing, the
    agent diffs every rendered label against the CSV.
-2. **No fabricated URLs.** `verify_urls.py` requests every source URL and
+2. **No fabricated URLs.** `verify_urls.mjs` requests every source URL and
    hard-fails the run on any non-success response. Nothing unverified ships.
 3. **Encoding tolerance.** The example CSVs contain mixed UTF-8/cp1252 bytes. The
    skill reads tolerantly and normalizes to clean UTF-8 (smart quotes,
