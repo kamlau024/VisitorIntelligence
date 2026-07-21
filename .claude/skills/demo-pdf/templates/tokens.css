@@ -1,0 +1,93 @@
+/* Shared print palette for demo PDFs. Lifted from the approved
+   demo_pdf/example-prospect/page3_wireframe.html; widget accents match
+   the product's terracotta mark. */
+:root {
+  --page-bg: #fbf9f3;
+  --surface: #ffffff;
+  --surface-1: #f5f2ea;
+  --border: rgba(0, 0, 0, 0.08);
+  --ink: #2c2c2a;
+  --ink-muted: #6b6b65;
+  --bg-accent: #e8e3d5;
+  --text-accent: #6b5d3e;
+  --accent: #c2552f;
+  --accent-soft: #f6e3d9;
+  --accent-ink: #fff7f2;
+  --teal: #3e7c74;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-voice: Georgia, "Times New Roman", serif;
+  --radius: 8px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  width: 816px;
+  background: var(--page-bg);
+  font-family: var(--font-sans);
+  color: var(--ink);
+  line-height: 1.5;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.page { padding: 48px; }
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+h1 { font-size: 22px; font-weight: 500; margin: 0 0 6px; color: var(--ink); }
+h2 { font-size: 18px; font-weight: 500; margin: 0 0 2px; color: var(--ink); }
+.lede { font-size: 14px; color: var(--ink-muted); margin: 0 0 24px; line-height: 1.5; }
+.card {
+  background: var(--surface);
+  border-radius: 12px;
+  border: 0.5px solid var(--border);
+  padding: 20px;
+}
+.chip {
+  display: inline-block;
+  border-radius: 999px;
+  background: var(--bg-accent);
+  color: var(--text-accent);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 3px 10px;
+}
+.masked { font-variant-numeric: tabular-nums; color: var(--ink-muted); }
+.section { border-top: 0.5px solid var(--border); padding-top: 16px; margin-bottom: 20px; }
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.section-label svg { width: 16px; height: 16px; color: var(--ink-muted); }
+.stack { display: flex; flex-direction: column; gap: 8px; }
+.question {
+  background: var(--surface-1);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: var(--font-voice);
+  font-style: italic;
+  color: var(--ink);
+}
+.post { padding: 10px 12px; background: var(--surface-1); border-radius: var(--radius); }
+.post-title { font-size: 14px; font-weight: 500; margin-bottom: 3px; color: var(--ink); }
+.post-covers { font-size: 13px; color: var(--ink-muted); }
+.footer-band {
+  margin-top: 28px;
+  padding-top: 14px;
+  border-top: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--ink-muted);
+}

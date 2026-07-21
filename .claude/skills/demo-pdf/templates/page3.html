@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Page 3 — Scattered content gaps</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+  .badge {
+    min-width: 32px; height: 32px; border-radius: 50%;
+    background: var(--bg-accent);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 500; font-size: 14px; color: var(--text-accent);
+  }
+  .meta { font-size: 13px; color: var(--ink-muted); }
+  .bridge { border-top: 0.5px solid var(--border); padding-top: 16px; }
+  .bridge p {
+    margin: 0; font-family: var(--font-voice); font-style: italic;
+    font-size: 15px; line-height: 1.6; color: var(--ink);
+  }
+  .container { max-width: 720px; margin: 0 auto; }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="container">
+
+  <div class="eyebrow">Content insights</div>
+  <h1>Answers scattered across your archive</h1>
+  <p class="lede">Questions your readers ask that your content already answers, just spread across multiple posts. Right now they have to hunt. The widget stitches them together.</p>
+
+  <div class="card">
+
+    <div class="card-header">
+      <div class="badge">1</div>
+      <div style="flex: 1;">
+        <h2>{{GAP_TITLE}}</h2>
+        <div class="meta">Recurring reader interest · touched in {{POST_COUNT}} of your posts</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9h8"/><path d="M8 13h6"/><path d="M9 18H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-5l-4 4Z"/></svg>
+        <span>What readers actually asked</span>
+      </div>
+      <div class="stack">
+        <!-- BEGIN:reader_question (one div per question in reader_questions, pipe-split) -->
+        <div class="question">"{{QUESTION_TEXT}}"</div>
+        <!-- END:reader_question -->
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/><path d="M9 13h6"/><path d="M9 17h4"/></svg>
+        <span>Where the answer lives across your posts</span>
+      </div>
+      <div class="stack">
+        <!-- BEGIN:source_post (one div per CSV row of the featured gap, in source_post_order) -->
+        <div class="post">
+          <div class="post-title">{{SOURCE_POST_TITLE}}</div>
+          <div class="post-covers">Covers: {{SOURCE_POST_COVERAGE}}</div>
+        </div>
+        <!-- END:source_post -->
+      </div>
+    </div>
+
+    <div class="bridge">
+      <p>{{BRIDGE_LINE}}</p>
+    </div>
+
+  </div>
+
+</div>
+</div>
+</body>
+</html>
