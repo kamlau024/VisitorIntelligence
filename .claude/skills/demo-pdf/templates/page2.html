@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Page 2 — What your readers are trying to do</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  .grid { display: grid; grid-template-columns: 264px 1fr; gap: 16px; align-items: start; }
+  .nav-card { background: var(--surface); border-radius: 12px; border: 0.5px solid var(--border); overflow: hidden; }
+  .nav-item { padding: 14px 16px; border-bottom: 0.5px solid var(--border); }
+  .nav-item:last-child { border-bottom: none; }
+  .nav-item.featured { background: var(--accent-soft); }
+  .nav-label { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .nav-item.featured .nav-label { color: var(--accent); }
+  .nav-meta { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+  .nav-bar { height: 6px; flex: 1; border-radius: 999px; background: var(--surface-1); overflow: hidden; }
+  .nav-bar > span { display: block; height: 100%; border-radius: 999px; background: color-mix(in srgb, var(--teal) 55%, transparent); }
+  .nav-count { font-size: 12px; }
+  .detail-header { border-bottom: 0.5px solid var(--border); padding-bottom: 16px; margin-bottom: 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .detail-title { font-size: 22px; font-weight: 500; margin: 6px 0 0; }
+  .stat { text-align: right; }
+  .stat-big { font-size: 28px; font-weight: 500; }
+  .stat-sub { font-size: 12px; color: var(--ink-muted); margin-top: 4px; }
+  .trend-pill {
+    display: inline-block; border-radius: 999px; padding: 2px 8px;
+    background: color-mix(in srgb, var(--teal) 14%, transparent);
+    color: var(--teal); font-size: 11px; font-weight: 600;
+  }
+  .post-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .post-chip {
+    display: inline-block; border-radius: 999px; border: 0.5px solid var(--border);
+    background: var(--surface); padding: 6px 12px; font-size: 12px; color: var(--ink);
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="eyebrow">Visitor intelligence · Intent clusters</div>
+  <h1>What your readers are trying to do</h1>
+  <p class="lede">Questions asked in the widget, grouped into intent clusters. This is the demand map for your existing archive — volumes shown as X until your data flows in.</p>
+
+  <div class="grid">
+
+    <div class="nav-card">
+      <!-- BEGIN:nav_item (5 rows from page2_clusters.csv in nav_order; featured row keeps class "featured", others drop it) -->
+      <div class="nav-item featured">
+        <div class="nav-label">{{CLUSTER_NAME}}</div>
+        <div class="nav-meta">
+          <div class="nav-bar"><span style="width: 62%"></span></div>
+          <span class="nav-count masked">X</span>
+        </div>
+      </div>
+      <!-- END:nav_item -->
+    </div>
+
+    <div class="card">
+      <div class="detail-header">
+        <div>
+          <span class="chip">Featured cluster</span>
+          <h2 class="detail-title">{{FEATURED_CLUSTER_NAME}}</h2>
+        </div>
+        <div class="stat">
+          <div class="stat-big masked">X</div>
+          <div class="stat-sub">questions · <span class="trend-pill masked">+XX%</span> WoW</div>
+        </div>
+      </div>
+
+      <div class="section-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9h8"/><path d="M8 13h6"/><path d="M9 18H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-5l-4 4Z"/></svg>
+        <span>What readers actually asked</span>
+      </div>
+      <div class="stack" style="margin-bottom: 20px;">
+        <!-- BEGIN:featured_question (question_1..3 of the featured row) -->
+        <div class="question">"{{QUESTION_TEXT}}"</div>
+        <!-- END:featured_question -->
+      </div>
+
+      <div class="section-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/><path d="M9 13h6"/><path d="M9 17h4"/></svg>
+        <span>Where it&rsquo;s asked</span>
+      </div>
+      <div class="post-chips">
+        <!-- BEGIN:featured_post (source_post_titles of the featured row, "; "-split) -->
+        <span class="post-chip">{{POST_TITLE}}</span>
+        <!-- END:featured_post -->
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
