@@ -40,7 +40,12 @@ For each of the three CSVs:
 Read the JSON. Expect: page1 = 3 lead rows; page2 = 5 cluster rows exactly
 one with `is_featured: "yes"`; page3 = rows grouped by `gap_id`. The
 featured page-3 gap is the one whose posts belong to this prospect's site
-(check `source_post_url` domains). If any expectation fails, stop and
+(check `source_post_url` domains). Page 3 CSVs may include multiple gap
+groups as seed/reference examples for the skill, all from the same target
+domain — domain alone won't disambiguate them. In that case, the featured
+gap is the one whose full `source_post_url` set exactly matches a page1
+lead's `source_post_urls` set (page 1 and the featured page-3 gap tell the
+same underlying story). If more than one gap still matches, stop and
 report — never guess.
 
 ### 2. Verify URLs (hard gate)
@@ -98,6 +103,16 @@ copies:
 
     node .claude/skills/demo-pdf/scripts/render_pdf.mjs demo_pdf/<prospect>/demo.pdf demo_pdf/<prospect>/build/page1.html demo_pdf/<prospect>/build/page2.html demo_pdf/<prospect>/build/page3.html
 
+Known script limitation: `render_pdf.mjs` measures each page's height with
+`document.documentElement.scrollHeight`, which floors to the browser's
+1000px initial viewport for any page whose real content is shorter (e.g. a
+lean page 2 with few clusters, or a page 3 with a short gap card). The
+resulting PDF page gets padded with blank space at the bottom instead of
+trimming to content — visible as a blank region in step 6 QA. No
+template/data change fixes this from the filled HTML; it needs a script
+fix (`document.body.scrollHeight` instead) that is out of scope for a
+template-filling run. Check for it explicitly in step 6.
+
 ### 6. QA (all must pass before you call it done)
 
 Read `demo.pdf` (Read tool) and check every page:
@@ -110,7 +125,9 @@ Read `demo.pdf` (Read tool) and check every page:
 - [ ] Page 2: 5 clusters, correct featured one, all numbers `X`/`+XX%`.
 - [ ] Page 3: single gap card, plain-text `Covers:` lines, bridge line
       closes the card, no CTA.
-- [ ] No clipped text, no overflowing boxes, no blank regions.
+- [ ] No clipped text, no overflowing boxes, no blank regions (see the
+      render-height limitation noted in step 5 — check pages whose content
+      is shorter than 1000px especially closely).
 - [ ] Footer disclosure ("demo mockup — the widget is not installed…")
       present on page 1.
 
