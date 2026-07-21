@@ -45,3 +45,4 @@ next-env.d.ts
 
 # demo-pdf prospect build artifacts
 demo_pdf/*/build/
+.superpowers/
