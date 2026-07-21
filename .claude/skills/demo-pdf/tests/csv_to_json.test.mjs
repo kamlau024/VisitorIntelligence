@@ -37,8 +37,10 @@ test("csvToRecords maps header to trimmed values", () => {
   assert.deepEqual(recs, [{ name: "Alpha", url: "https://x.test/a" }]);
 });
 
-test("csvToRecords parses the real example page1 CSV", () => {
-  const buf = fs.readFileSync("demo_pdf/example-prospect/page1_leads.csv");
+test("csvToRecords parses the real example page1 CSV", (t) => {
+  const csvPath = "demo_pdf/example-prospect/page1_leads.csv";
+  if (!fs.existsSync(csvPath)) return t.skip("example fixture CSV not present (untracked user data)");
+  const buf = fs.readFileSync(csvPath);
   const recs = csvToRecords(buf);
   assert.equal(recs.length, 3);
   assert.deepEqual(

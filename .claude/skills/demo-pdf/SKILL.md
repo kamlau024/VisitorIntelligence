@@ -46,7 +46,7 @@ domain — domain alone won't disambiguate them. In that case, the featured
 gap is the one whose full `source_post_url` set exactly matches a page1
 lead's `source_post_urls` set (page 1 and the featured page-3 gap tell the
 same underlying story). If more than one gap still matches, stop and
-report — never guess.
+report — never guess. If NO gap's URL set matches any page1 lead, or any other expectation above fails (row counts, featured flags, missing columns), stop and report — do not guess or repair inputs.
 
 ### 2. Verify URLs (hard gate)
 

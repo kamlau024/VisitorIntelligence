@@ -43,6 +43,8 @@ next-env.d.ts
 # walkthrough videos
 /walkthrough
 
-# demo-pdf prospect build artifacts
-demo_pdf/*/build/
+# demo-pdf prospect folders: inputs are irreplaceable untracked user data;
+# only the generated demo.pdf deliverable is ever tracked
+demo_pdf/*/*
+!demo_pdf/*/demo.pdf
 .superpowers/
