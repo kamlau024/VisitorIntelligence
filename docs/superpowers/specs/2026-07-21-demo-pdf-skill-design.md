@@ -25,6 +25,7 @@ test (Jane / Example Blog). After that it is applied to real prospects.
 | Skill shape | Helper scripts for deterministic steps + agent judgment for content fitting and QA |
 | "Strip:" lists in overview.md | Elements to REMOVE from the dashboard layouts (confirmed by user) |
 | Palette | The warm print palette from `demo_pdf/example-prospect/page3_wireframe.html`, shared across all three pages |
+| Script runtime | Node 24 `.mjs` (playwright + pdf-lib devDependencies; machine has no Python playwright/pypdf) |
 
 ## Skill anatomy
 
@@ -37,9 +38,10 @@ test (Jane / Example Blog). After that it is applied to real prospects.
 │   ├── page2.html            # intent-clusters layout (mirrors intent-explorer.tsx)
 │   └── page3.html            # content-gaps layout (page3_wireframe.html, parameterized)
 └── scripts/
-    ├── capture_homepage.py   # Playwright screenshot of target homepage, cookie-banner dismissal
-    ├── verify_urls.py        # HTTP-checks every source URL; hard-fails on any miss
-    └── render_pdf.py         # per page: measure content height → print 8.5in × auto → merge into one PDF
+    ├── csv_to_json.mjs       # tolerant mixed-encoding CSV → JSON records
+    ├── capture_homepage.mjs  # Playwright screenshot of target homepage, overlay dismissal
+    ├── verify_urls.mjs       # HTTP-checks every source URL; hard-fails on any miss
+    └── render_pdf.mjs        # per page: measure content height → print 8.5in × auto → merge into one PDF
 ```
 
 **Invocation:** agent invokes the skill with a prospect folder path and an author
