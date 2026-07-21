@@ -1428,8 +1428,9 @@ stop and report (troubleshooting: some sites require
 
 ### 4. Fill the templates
 
-Copy `templates/tokens.css`, `page1.html`, `page2.html`, `page3.html`
-into `demo_pdf/<prospect>/build/`. Fill the copies:
+Copy `.claude/skills/demo-pdf/templates/tokens.css`, `page1.html`,
+`page2.html`, `page3.html` into `demo_pdf/<prospect>/build/`. Fill the
+copies:
 
 - `{{NAME}}` placeholders: replace with data. HTML-escape `&`, `<`, `>`
   in all CSV text.
