@@ -20,6 +20,28 @@ async function dismissOverlays(page) {
   }
 }
 
+// Full-page captures must scroll the page first, or below-the-fold
+// lazy-loaded images screenshot as empty placeholders.
+async function scrollThrough(page) {
+  await page.evaluate(async () => {
+    await new Promise((resolve) => {
+      let scrolled = 0;
+      const step = 600;
+      const timer = setInterval(() => {
+        window.scrollBy(0, step);
+        scrolled += step;
+        if (scrolled >= document.body.scrollHeight - window.innerHeight) {
+          clearInterval(timer);
+          resolve();
+        }
+      }, 120);
+    });
+    window.scrollTo(0, 0);
+  });
+  await page.waitForLoadState("networkidle", { timeout: 10000 }).catch(() => {});
+  await page.waitForTimeout(800);
+}
+
 export async function captureHomepage(url, outPath, { width = 1440, height = 1050, fullPage = false } = {}) {
   const browser = await chromium.launch();
   try {
@@ -27,6 +49,7 @@ export async function captureHomepage(url, outPath, { width = 1440, height = 105
     await page.goto(url, { waitUntil: "domcontentloaded", timeout: 45000 });
     await page.waitForLoadState("networkidle", { timeout: 15000 }).catch(() => {});
     await dismissOverlays(page);
+    if (fullPage) await scrollThrough(page);
     await page.waitForTimeout(800);
     await page.screenshot({ path: outPath, fullPage });
   } finally {

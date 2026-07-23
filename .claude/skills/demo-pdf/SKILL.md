@@ -57,7 +57,11 @@ Exit code must be 0. Save the output — it is the verification log.
 ### 3. Capture the homepage
 
     mkdir -p demo_pdf/<prospect>/build
-    node .claude/skills/demo-pdf/scripts/capture_homepage.mjs "<target_homepage_url from page1 CSV>" demo_pdf/<prospect>/build/homepage.png
+    node .claude/skills/demo-pdf/scripts/capture_homepage.mjs "<target_homepage_url from page1 CSV>" demo_pdf/<prospect>/build/homepage.png --full
+
+`--full` captures the whole page: the page-1 hero grows to fit the full
+widget answer and shows as much homepage behind it as that requires
+(`object-fit: cover` crops from the top).
 
 View the PNG (Read tool). It must show the real homepage — not a blank
 page, error, or consent wall. If blocked, retry once; if still blocked,
@@ -86,10 +90,15 @@ copies:
     spaces, `.html` stripped, sentence case, truncated to ~55 chars with
     `…`.
   - Render the answer IN FULL — no truncation in lead rows.
-- **Page 1 widget preview**: `{{WIDGET_QUESTION}}` = lead 1's question;
-  `{{WIDGET_ANSWER_PREVIEW}}` = lead 1's first 1-2 paragraphs as `<p>`s
-  (cite links stripped) — CSS crops it with a fade; give it enough text
-  to overflow the 150px max-height so the fade reads naturally.
+- **Page 1 widget**: `{{WIDGET_QUESTION}}` = lead 1's question;
+  `{{WIDGET_ANSWER_HTML}}` = lead 1's FULL converted answer (same HTML as
+  its lead row) with the `<sup class="cite">` markers removed — the live
+  widget shows citations as chips, not superscripts. `{{WIDGET_SOURCE_COUNT}}`
+  = lead 1's unique cited URL count; duplicate `widget_source_chip` per
+  unique URL with the same numbering and labels as the lead row's chips.
+  The confidence indicator and thumbs row under the bubble are static in
+  the template — leave them untouched. Never truncate or fade the widget
+  answer; the hero grows to fit it.
 - **Page 2**: 5 `nav_item`s in `nav_order` (only the featured row keeps
   class `featured`; bar widths 62/48/41/33/27% top to bottom); featured
   detail from the featured row's `question_1..3` and `source_post_titles`
@@ -110,7 +119,10 @@ Read `demo.pdf` (Read tool) and check every page:
 - [ ] No `�` anywhere (also `grep -c '�'` each filled HTML → 0).
 - [ ] Every cluster label matches its CSV `cluster_name` exactly (diff by
       eye against the csv_to_json output).
-- [ ] Page 1: real homepage visible; widget floats bottom-right; 3 lead
+- [ ] Page 1: real homepage visible behind the widget with NO dimming or
+      gray backdrop; widget floats over the right side showing lead 1's
+      full answer ending in numbered source chips, with the confidence
+      indicator and thumbs up/down row visible under the bubble; 3 lead
       cards; every cite superscript has a matching numbered source chip.
 - [ ] Page 2: 5 clusters, correct featured one, all numbers `X`/`+XX%`.
 - [ ] Page 3: single gap card, plain-text `Covers:` lines, bridge line
