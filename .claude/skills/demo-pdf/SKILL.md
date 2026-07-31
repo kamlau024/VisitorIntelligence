@@ -90,6 +90,10 @@ copies:
     spaces, `.html` stripped, sentence case, truncated to ~55 chars with
     `…`.
   - Render the answer IN FULL — no truncation in lead rows.
+- **Page 1 lead cards**: fill `lead_row_first` with lead 1 (the hero
+  question shown in the widget); the "More examples the widget surfaced"
+  divider between it and the rest is static — leave it. Duplicate
+  `lead_row` once per remaining lead in `lead_order`.
 - **Page 1 widget**: `{{WIDGET_QUESTION}}` = lead 1's question;
   `{{WIDGET_ANSWER_HTML}}` = lead 1's FULL converted answer (same HTML as
   its lead row) with the `<sup class="cite">` markers removed — the live
@@ -123,7 +127,11 @@ Read `demo.pdf` (Read tool) and check every page:
       gray backdrop; widget floats over the right side showing lead 1's
       full answer ending in numbered source chips, with the confidence
       indicator and thumbs up/down row visible under the bubble; 3 lead
-      cards; every cite superscript has a matching numbered source chip.
+      cards with the "More examples the widget surfaced" divider after
+      the first; every cite superscript has a matching numbered source
+      chip; the intro copy never claims the widget IS installed (it says
+      what it looks like WHEN installed — the footer disclosure depends
+      on that distinction).
 - [ ] Page 2: 5 clusters, correct featured one, all numbers `X`/`+XX%`.
 - [ ] Page 3: single gap card, plain-text `Covers:` lines, bridge line
       closes the card, no CTA.

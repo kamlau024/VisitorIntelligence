@@ -132,6 +132,15 @@
     border-top: 0.5px solid rgba(0, 0, 0, 0.06);
   }
   /* lead rows */
+  .section-break {
+    display: flex; align-items: center; gap: 12px;
+    margin: 32px 0 0;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    font-weight: 500; color: var(--ink-muted);
+  }
+  .section-break::before, .section-break::after {
+    content: ""; height: 0.5px; background: var(--border); flex: 1;
+  }
   .lead { margin-top: 16px; }
   .lead-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
   .lead-num {
@@ -177,7 +186,7 @@
 
   <div class="eyebrow">Visitor intelligence · Demo for {{SITE_NAME}}</div>
   <h1>Your readers, already asking</h1>
-  <p class="lede">This is your homepage with the widget installed. Visitors ask in their own words; the widget answers from your archive, with citations back to your posts. Below: three real reader questions and the answers the widget surfaced.</p>
+  <p class="lede">This is what it looks like on your homepage when the widget is installed. Visitors ask in their own words and get cited answers drawn from your own posts. Below: three reader questions the widget can answer from your archive.</p>
 
   <div class="hero">
     <img class="hero-bg" src="homepage.png" alt="{{SITE_NAME}} homepage">
@@ -228,7 +237,28 @@
     </div>
   </div>
 
-  <!-- BEGIN:lead_row (one card per row of page1_leads.csv, in lead_order) -->
+  <!-- BEGIN:lead_row_first (lead 1 only — the question shown live in the hero widget above) -->
+  <div class="card lead">
+    <div class="lead-head">
+      <span class="lead-num">{{LEAD_NUMBER}}</span>
+      <span class="chip">{{CLUSTER_NAME}}</span>
+    </div>
+    <p class="lead-question">"{{LEAD_QUESTION}}"</p>
+    <div class="answer">
+      {{ANSWER_HTML}}
+      <div class="answer-sources">
+        <div class="label">Sources from {{AUTHOR_NAME}}&rsquo;s posts</div>
+        <!-- BEGIN:source_chip (one per unique cited URL in this lead, numbered in first-appearance order) -->
+        <span class="src"><span class="n">{{CITE_NUMBER}}</span>{{CITE_LABEL}}</span>
+        <!-- END:source_chip -->
+      </div>
+    </div>
+  </div>
+  <!-- END:lead_row_first -->
+
+  <div class="section-break">More examples the widget surfaced</div>
+
+  <!-- BEGIN:lead_row (one card per remaining row of page1_leads.csv, in lead_order) -->
   <div class="card lead">
     <div class="lead-head">
       <span class="lead-num">{{LEAD_NUMBER}}</span>
