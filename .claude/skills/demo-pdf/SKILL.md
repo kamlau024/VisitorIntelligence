@@ -79,30 +79,26 @@ copies:
 - `<!-- BEGIN:block -->…<!-- END:block -->`: duplicate the enclosed
   markup once per data row (per the note in each block comment), then
   remove the marker comments.
-- **Page 1 answer conversion** (`answer_text` → `{{ANSWER_HTML}}`):
+- **Page 1 hero blocks**: EVERY lead renders as a widget-on-homepage
+  simulation — duplicate `hero_block` once per lead in `lead_order`.
+  Per block: `{{LEAD_NUMBER}}` and verbatim `{{CLUSTER_NAME}}` in the
+  header above the simulation; `{{WIDGET_QUESTION}}` = the lead's
+  question; `{{HERO_POS}}` cycles 1, 2, 3, 1, … so each simulation crops
+  a different region of the homepage screenshot.
+- **Page 1 answer conversion** (`answer_text` → `{{WIDGET_ANSWER_HTML}}`):
   - Split into paragraphs on blank lines; lines starting `- ` become
     `<ul><li>` groups. Bold section headers like `Main steps (from the
     posts)` become `<p><strong>…</strong></p>`.
-  - Replace each `[Cite](URL)` with `<sup class="cite">N</sup>` where N
-    is that URL's 1-based index in the lead's unique-URL list (order of
-    first appearance). Build one `source_chip` per unique URL:
-    `{{CITE_NUMBER}}` = N, `{{CITE_LABEL}}` = the URL's slug, hyphens →
-    spaces, `.html` stripped, sentence case, truncated to ~55 chars with
-    `…`.
-  - Render the answer IN FULL — no truncation in lead rows.
-- **Page 1 lead cards**: fill `lead_row_first` with lead 1 (the hero
-  question shown in the widget); the "More examples the widget surfaced"
-  divider between it and the rest is static — leave it. Duplicate
-  `lead_row` once per remaining lead in `lead_order`.
-- **Page 1 widget**: `{{WIDGET_QUESTION}}` = lead 1's question;
-  `{{WIDGET_ANSWER_HTML}}` = lead 1's FULL converted answer (same HTML as
-  its lead row) with the `<sup class="cite">` markers removed — the live
-  widget shows citations as chips, not superscripts. `{{WIDGET_SOURCE_COUNT}}`
-  = lead 1's unique cited URL count; duplicate `widget_source_chip` per
-  unique URL with the same numbering and labels as the lead row's chips.
-  The confidence indicator and thumbs row under the bubble are static in
-  the template — leave them untouched. Never truncate or fade the widget
-  answer; the hero grows to fit it.
+  - Strip each `[Cite](URL)` marker — the widget shows citations as
+    chips, not inline superscripts — while recording each URL's 1-based
+    index in order of first appearance. `{{WIDGET_SOURCE_COUNT}}` = the
+    lead's unique-URL count. One `widget_source_chip` per unique URL:
+    `{{CITE_NUMBER}}` = its index, `{{CITE_LABEL}}` = the URL's slug,
+    hyphens → spaces, `.html` stripped, sentence case, truncated to
+    ~55 chars with `…`.
+  - Render the answer IN FULL — never truncate or fade it; each hero
+    grows to fit its widget. The confidence indicator and thumbs row
+    under the bubble are static in the template — leave them untouched.
 - **Page 2**: 5 `nav_item`s in `nav_order` (only the featured row keeps
   class `featured`; bar widths 62/48/41/33/27% top to bottom); featured
   detail from the featured row's `question_1..3` and `source_post_titles`
@@ -123,20 +119,20 @@ Read `demo.pdf` (Read tool) and check every page:
 - [ ] No `�` anywhere (also `grep -c '�'` each filled HTML → 0).
 - [ ] Every cluster label matches its CSV `cluster_name` exactly (diff by
       eye against the csv_to_json output).
-- [ ] Page 1: real homepage visible behind the widget with NO dimming or
-      gray backdrop; widget floats over the right side showing lead 1's
-      full answer ending in numbered source chips, with the confidence
-      indicator and thumbs up/down row visible under the bubble; 3 lead
-      cards with the "More examples the widget surfaced" divider after
-      the first; every cite superscript has a matching numbered source
-      chip; the intro copy never claims the widget IS installed (it says
-      what it looks like WHEN installed — the footer disclosure depends
-      on that distinction).
+- [ ] Page 1: one widget-on-homepage simulation per lead, each with the
+      real homepage visible behind the widget (NO dimming or gray
+      backdrop) at a different scroll position; each widget shows that
+      lead's full answer ending in numbered source chips, with the
+      confidence indicator and thumbs up/down row visible under the
+      bubble; verbatim cluster chip above each simulation; the intro
+      copy never claims the widget IS installed (it says what it looks
+      like WHEN installed — the footer disclosure depends on that
+      distinction).
 - [ ] Page 2: 5 clusters, correct featured one, all numbers `X`/`+XX%`.
 - [ ] Page 3: single gap card, plain-text `Covers:` lines, bridge line
       closes the card, no CTA.
 - [ ] No clipped text, no overflowing boxes, no blank regions.
-- [ ] Footer disclosure ("demo mockup — the widget is not installed…")
+- [ ] Footer band ("Visitor Intelligence · demo mockup — <site>")
       present on page 1.
 
 Fix and re-render until all boxes check. Report the QA result explicitly.
