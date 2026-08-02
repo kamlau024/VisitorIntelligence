@@ -95,6 +95,42 @@ when nothing is blocking.
 
 ---
 
+### Alternative: upload to your Claude account
+
+The same folder can be uploaded as a Skill to your Claude account (Claude
+Desktop → Settings → Capabilities → Skills → Upload). Upload
+`demo-pdf-skill.zip`; it already has the required shape — a `demo-pdf/`
+folder with `SKILL.md` at its root and valid `name`/`description`
+frontmatter.
+
+**Understand the trade-off before relying on this.** An uploaded skill runs
+in Claude's own sandboxed execution environment, not on your machine. This
+skill's core steps need things that environment may not permit:
+
+- **Outbound network access to the prospect's website** — required to
+  screenshot their homepage and to verify every source URL. Without it the
+  skill cannot do its main job.
+- **A Chromium install** (~150 MB via `npx playwright install chromium`,
+  plus Linux system libraries) — required to render anything at all.
+- **poppler** for the QA pass.
+
+Run `node scripts/preflight.mjs` as the first thing after uploading; it
+reports exactly which of these are available. If the environment is
+restricted, run the skill through **Claude Code locally** instead, where the
+full pipeline is verified working. Uploading still has value for carrying
+the process and templates across machines and sharing them with teammates.
+
+To rebuild the upload package after editing the skill:
+
+```bash
+cd <parent of demo-pdf>
+rm -f demo-pdf-skill.zip
+zip -qr demo-pdf-skill.zip demo-pdf -x 'demo-pdf/node_modules/*' -x '*.DS_Store'
+```
+
+Always exclude `node_modules` — it holds a platform-specific Chromium and
+would be both enormous and useless on another OS.
+
 ## Using it
 
 Start Claude Code in the directory that contains your `demo_pdf/` folder and

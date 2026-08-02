@@ -52,3 +52,6 @@ demo_pdf/*/*
 # demo-pdf skill: local deps and packaged zip
 .claude/skills/demo-pdf/node_modules/
 .claude/skills/*.zip
+
+# packaged skill for upload/transfer (rebuild: see skill README)
+/demo-pdf-skill.zip
