@@ -1,6 +1,6 @@
 ---
 name: demo-pdf
-description: Generate a prospect demo PDF simulating the Visitor Intelligence widget installed on a target site - one simulated homepage mockup per reader question, plus intent-clusters and content-gap pages. Use when asked to build a demo/sales PDF for a prospect from a demo_pdf/<prospect>/ folder of CSVs. Inputs - prospect folder path and the site author's first name.
+description: Generate a prospect demo PDF simulating the Visitor Intelligence widget installed on a target site - one simulated homepage mockup per reader question, plus intent-clusters and content-gap pages. Use when asked to build a demo or sales PDF for a prospect from a folder of prospect CSVs under demo_pdf. Inputs - the prospect folder path and the site author's first name.
 ---
 
 # demo-pdf: prospect demo PDF generator

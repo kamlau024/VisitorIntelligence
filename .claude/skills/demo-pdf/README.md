@@ -166,6 +166,18 @@ Desktop → Settings → Capabilities → Skills → Upload). Upload
 folder with `SKILL.md` at its root and valid `name`/`description`
 frontmatter.
 
+**If you edit the frontmatter, keep it upload-safe.** The validator enforces
+rules the local runtime does not care about:
+
+- The `description` may not contain `<` or `>` — they are read as XML tags
+  and the upload is rejected with *"SKILL.md description cannot contain XML
+  tags"*. Write `demo_pdf folder`, never `demo_pdf/<prospect>/`.
+- `name` must be lowercase letters, numbers, and hyphens only.
+- `description` must be non-empty and at most 1024 characters.
+
+`npm run preflight` checks all three and reports any violation, so run it
+before packaging rather than finding out in the upload dialog.
+
 **Understand the trade-off before relying on this.** An uploaded skill runs
 in Claude's own sandboxed execution environment, not on your machine. This
 skill's core steps need things that environment may not permit:

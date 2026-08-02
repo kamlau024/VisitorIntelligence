@@ -4,6 +4,7 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
+import { readFileSync } from "node:fs";
 import path from "node:path";
 
 const run = promisify(execFile);
@@ -84,6 +85,30 @@ try {
       "macOS: brew install poppler · Debian/Ubuntu: apt-get install poppler-utils"
     );
   }
+}
+
+// 6. SKILL.md frontmatter must satisfy the Claude upload validator. Local
+// runs tolerate anything, but angle brackets in the description are read as
+// XML tags and the upload is rejected — so this is a warning, checked here
+// rather than discovered in the upload dialog.
+try {
+  const skillMd = readFileSync(path.join(SKILL_DIR, "SKILL.md"), "utf8");
+  const fm = /^---\n(.*?)\n---\n/s.exec(skillMd);
+  if (!fm) {
+    warn("SKILL.md frontmatter", "no YAML frontmatter block found", "Add a --- delimited block with name and description.");
+  } else {
+    const name = /^name:\s*(.+)$/m.exec(fm[1])?.[1].trim() ?? "";
+    const desc = /^description:\s*(.+)$/m.exec(fm[1])?.[1].trim() ?? "";
+    const problems = [];
+    if (!/^[a-z0-9-]+$/.test(name)) problems.push(`name "${name}" must be lowercase letters, numbers, and hyphens only`);
+    if (!desc) problems.push("description is empty");
+    if (desc.length > 1024) problems.push(`description is ${desc.length} chars (limit 1024)`);
+    if (/[<>]/.test(desc)) problems.push("description contains < or > — the upload validator rejects these as XML tags");
+    if (problems.length === 0) ok("SKILL.md frontmatter", `name "${name}", description ${desc.length} chars`);
+    else warn("SKILL.md frontmatter", problems.join("; "), "Fix before uploading the skill to a Claude account (local runs are unaffected).");
+  }
+} catch (err) {
+  warn("SKILL.md frontmatter", `could not read SKILL.md: ${String(err).split("\n")[0]}`);
 }
 
 const icon = { ok: "✓", warn: "!", fail: "✗" };
