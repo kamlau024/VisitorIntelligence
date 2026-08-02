@@ -48,3 +48,7 @@ next-env.d.ts
 demo_pdf/*/*
 !demo_pdf/*/demo.pdf
 .superpowers/
+
+# demo-pdf skill: local deps and packaged zip
+.claude/skills/demo-pdf/node_modules/
+.claude/skills/*.zip

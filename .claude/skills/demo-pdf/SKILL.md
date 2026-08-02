@@ -8,12 +8,24 @@ description: Generate a prospect demo PDF simulating the Visitor Intelligence wi
 Turns `demo_pdf/<prospect>/` (three CSVs) into `demo_pdf/<prospect>/demo.pdf`,
 a tall-page PDF: one page per reader question (the widget simulated on the
 prospect's homepage), then an intent-clusters page, then a scattered-content
-gap page — 5 pages for the standard 3-lead prospect. Run everything from
-the repo root.
+gap page — 5 pages for the standard 3-lead prospect.
 
 **Required inputs:** prospect folder path, author first name (drives "Ask
 {Author}" branding). Optional: site display name (default: homepage domain
 without `www.`, e.g. `example-blog.com`).
+
+## Paths used in this document
+
+- **`<SKILL>`** — the directory this SKILL.md lives in. Substitute the real
+  path in every command below. Typically `.claude/skills/demo-pdf` (project
+  install) or `~/.claude/skills/demo-pdf` (personal install). The scripts
+  resolve their own dependencies, so they work from any location.
+- **Prospect paths** (`demo_pdf/<prospect>/…`) are relative to your current
+  working directory. Run all commands from the directory that contains the
+  `demo_pdf/` folder, or substitute absolute paths.
+
+If `<SKILL>/node_modules` does not exist, the skill has not been installed —
+see `<SKILL>/README.md`.
 
 ## Hard rules (violating any of these fails the run)
 
@@ -33,11 +45,20 @@ without `www.`, e.g. `example-blog.com`).
 
 ## Process
 
+### 0. Preflight (first run on a machine, or after any tooling error)
+
+    node <SKILL>/scripts/preflight.mjs
+
+Exit code must be 0. It verifies Node, the `playwright`/`pdf-lib`
+dependencies, a launchable Chromium, and `pdftoppm` (needed to read the
+PDF in step 6). If it reports a blocking problem, follow the printed fix
+and re-run — do not start a prospect run against a broken environment.
+
 ### 1. Parse inputs
 
 For each of the three CSVs:
 
-    node .claude/skills/demo-pdf/scripts/csv_to_json.mjs demo_pdf/<prospect>/page1_leads.csv
+    node <SKILL>/scripts/csv_to_json.mjs demo_pdf/<prospect>/page1_leads.csv
 
 Read the JSON. Expect: page1 = 3 lead rows; page2 = 5 cluster rows exactly
 one with `is_featured: "yes"`; page3 = rows grouped by `gap_id`. The
@@ -52,14 +73,14 @@ report — never guess. If NO gap's URL set matches any page1 lead, or any other
 
 ### 2. Verify URLs (hard gate)
 
-    node .claude/skills/demo-pdf/scripts/verify_urls.mjs demo_pdf/<prospect>/page1_leads.csv demo_pdf/<prospect>/page2_clusters.csv demo_pdf/<prospect>/page3_scattered_content_gaps.csv
+    node <SKILL>/scripts/verify_urls.mjs demo_pdf/<prospect>/page1_leads.csv demo_pdf/<prospect>/page2_clusters.csv demo_pdf/<prospect>/page3_scattered_content_gaps.csv
 
 Exit code must be 0. Save the output — it is the verification log.
 
 ### 3. Capture the homepage
 
     mkdir -p demo_pdf/<prospect>/build
-    node .claude/skills/demo-pdf/scripts/capture_homepage.mjs "<target_homepage_url from page1 CSV>" demo_pdf/<prospect>/build/homepage.png --full
+    node <SKILL>/scripts/capture_homepage.mjs "<target_homepage_url from page1 CSV>" demo_pdf/<prospect>/build/homepage.png --full
 
 `--full` captures the whole page: the page-1 hero grows to fit the full
 widget answer and shows as much homepage behind it as that requires
@@ -72,9 +93,9 @@ stop and report (troubleshooting: some sites require
 
 ### 4. Fill the templates
 
-Copy `.claude/skills/demo-pdf/templates/tokens.css`, `page2.html`, and
+Copy `<SKILL>/templates/tokens.css`, `page2.html`, and
 `page3.html` into `demo_pdf/<prospect>/build/`, then fill
-`.claude/skills/demo-pdf/templates/question-page.html` once per lead into
+`<SKILL>/templates/question-page.html` once per lead into
 `demo_pdf/<prospect>/build/q1.html`, `q2.html`, … (in `lead_order`).
 Fill the copies:
 
@@ -115,7 +136,7 @@ Fill the copies:
 
 ### 5. Render
 
-    node .claude/skills/demo-pdf/scripts/render_pdf.mjs demo_pdf/<prospect>/demo.pdf demo_pdf/<prospect>/build/q1.html demo_pdf/<prospect>/build/q2.html demo_pdf/<prospect>/build/q3.html demo_pdf/<prospect>/build/page2.html demo_pdf/<prospect>/build/page3.html
+    node <SKILL>/scripts/render_pdf.mjs demo_pdf/<prospect>/demo.pdf demo_pdf/<prospect>/build/q1.html demo_pdf/<prospect>/build/q2.html demo_pdf/<prospect>/build/q3.html demo_pdf/<prospect>/build/page2.html demo_pdf/<prospect>/build/page3.html
 
 (One `qN.html` argument per lead, in `lead_order`, before `page2.html`.)
 
