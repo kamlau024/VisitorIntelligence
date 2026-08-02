@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Page 1 — Your readers, already asking</title>
+<title>Question page — widget simulated on the prospect homepage</title>
 <link rel="stylesheet" href="tokens.css">
 <style>
-  /* Every lead renders as a simulation: the prospect's homepage behind an
-     in-flow floating chat window. The widget's natural height sets each
-     hero's height. Each hero crops a different region of the full-page
-     screenshot (hero-pos-N) so the three simulations read as moments on
-     the same site, not three copies of one image.
-     NOTE: no box-shadows anywhere on this page — Apple's PDF renderer
+  /* This template renders ONE question page: the prospect's homepage
+     behind an in-flow floating chat window answering one reader
+     question. Fill it once per lead (build/q1.html, q2.html, …). The
+     widget's natural height sets the hero height. Every page uses the
+     TOP of the homepage screenshot so the prospect's header, logo, and
+     branding are visible on each mockup.
+     NOTE: no box-shadows anywhere on these pages — Apple's PDF renderer
      (Preview/Quick Look) draws Chromium-printed box-shadows as solid
      gray slabs over the screenshot. */
   .lead-head { display: flex; align-items: center; gap: 10px; margin: 28px 0 10px; }
@@ -32,10 +33,8 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
   }
-  .hero-pos-1 .hero-bg { object-position: top center; }
-  .hero-pos-2 .hero-bg { object-position: center 42%; }
-  .hero-pos-3 .hero-bg { object-position: center 88%; }
   .widget {
     position: relative;
     width: 340px;
@@ -147,15 +146,16 @@
 <div class="page">
 
   <div class="eyebrow">Visitor intelligence · Demo for {{SITE_NAME}}</div>
+  <!-- BEGIN:intro (keep on the FIRST question page only; delete this block on q2, q3, …) -->
   <h1>Your readers, already asking</h1>
-  <p class="lede">This is what it looks like on your homepage when the widget is installed. Visitors ask in their own words and get cited answers drawn from your own posts. Below: three reader questions the widget can answer from your archive.</p>
+  <p class="lede">This is what it looks like on your homepage when the widget is installed. Visitors ask in their own words and get cited answers drawn from your own posts. Each of the following pages simulates one reader question the widget can answer from your archive.</p>
+  <!-- END:intro -->
 
-  <!-- BEGIN:hero_block (one per row of page1_leads.csv, in lead_order; {{HERO_POS}} cycles 1, 2, 3, 1, … to vary the homepage crop) -->
   <div class="lead-head">
     <span class="lead-num">{{LEAD_NUMBER}}</span>
     <span class="chip">{{CLUSTER_NAME}}</span>
   </div>
-  <div class="hero hero-pos-{{HERO_POS}}">
+  <div class="hero">
     <img class="hero-bg" src="homepage.png" alt="{{SITE_NAME}} homepage">
     <div class="widget">
       <div class="widget-header">
@@ -203,7 +203,6 @@
       <div class="widget-footer">Powered by Visitor Intelligence</div>
     </div>
   </div>
-  <!-- END:hero_block -->
 
   <div class="footer-band">
     <svg viewBox="0 0 32 32" fill="none" width="14" height="14"><path d="M6 4.5h20a3.5 3.5 0 0 1 3.5 3.5v12a3.5 3.5 0 0 1-3.5 3.5H13.2L7 27.2a.7.7 0 0 1-1.2-.5V23.5H6A3.5 3.5 0 0 1 2.5 20V8A3.5 3.5 0 0 1 6 4.5Z" fill="#c2552f"/><rect x="9" y="15.5" width="2.6" height="3.5" rx="1.3" fill="#fff7f2"/><rect x="14.7" y="12" width="2.6" height="7" rx="1.3" fill="#fff7f2"/><rect x="20.4" y="8.5" width="2.6" height="10.5" rx="1.3" fill="#fff7f2"/></svg>

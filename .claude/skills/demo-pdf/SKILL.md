@@ -1,13 +1,15 @@
 ---
 name: demo-pdf
-description: Generate a 3-page prospect demo PDF simulating the Visitor Intelligence widget installed on a target site. Use when asked to build a demo/sales PDF for a prospect from a demo_pdf/<prospect>/ folder of CSVs. Inputs - prospect folder path and the site author's first name.
+description: Generate a prospect demo PDF simulating the Visitor Intelligence widget installed on a target site - one simulated homepage mockup per reader question, plus intent-clusters and content-gap pages. Use when asked to build a demo/sales PDF for a prospect from a demo_pdf/<prospect>/ folder of CSVs. Inputs - prospect folder path and the site author's first name.
 ---
 
 # demo-pdf: prospect demo PDF generator
 
-Turns `demo_pdf/<prospect>/` (three CSVs) into `demo_pdf/<prospect>/demo.pdf`:
-a 3-page tall-page PDF — homepage hero with the widget overlaid, intent
-clusters, scattered-content gap. Run everything from the repo root.
+Turns `demo_pdf/<prospect>/` (three CSVs) into `demo_pdf/<prospect>/demo.pdf`,
+a tall-page PDF: one page per reader question (the widget simulated on the
+prospect's homepage), then an intent-clusters page, then a scattered-content
+gap page — 5 pages for the standard 3-lead prospect. Run everything from
+the repo root.
 
 **Required inputs:** prospect folder path, author first name (drives "Ask
 {Author}" branding). Optional: site display name (default: homepage domain
@@ -18,8 +20,8 @@ without `www.`, e.g. `example-blog.com`).
 1. Cluster labels render verbatim from CSV `cluster_name`. Never rename.
 2. Every URL must pass `verify_urls.mjs` BEFORE any rendering. If any URL
    fails, stop and report the failures. Do not fabricate or substitute URLs.
-3. Page 2 numbers are always literal `X` / `+XX%` (pre-masked in the
-   template — do not replace them).
+3. Intent-cluster numbers (page2.html) are always literal `X` / `+XX%`
+   (pre-masked in the template — do not replace them).
 4. Reader questions render exactly as written in the CSVs, including
    drafted ones. Never rephrase.
 5. No U+FFFD (`�`) anywhere in filled HTML. Resolve each from context
@@ -70,22 +72,25 @@ stop and report (troubleshooting: some sites require
 
 ### 4. Fill the templates
 
-Copy `.claude/skills/demo-pdf/templates/tokens.css`, `page1.html`,
-`page2.html`, `page3.html` into `demo_pdf/<prospect>/build/`. Fill the
-copies:
+Copy `.claude/skills/demo-pdf/templates/tokens.css`, `page2.html`, and
+`page3.html` into `demo_pdf/<prospect>/build/`, then fill
+`.claude/skills/demo-pdf/templates/question-page.html` once per lead into
+`demo_pdf/<prospect>/build/q1.html`, `q2.html`, … (in `lead_order`).
+Fill the copies:
 
 - `{{NAME}}` placeholders: replace with data. HTML-escape `&`, `<`, `>`
   in all CSV text.
 - `<!-- BEGIN:block -->…<!-- END:block -->`: duplicate the enclosed
   markup once per data row (per the note in each block comment), then
   remove the marker comments.
-- **Page 1 hero blocks**: EVERY lead renders as a widget-on-homepage
-  simulation — duplicate `hero_block` once per lead in `lead_order`.
-  Per block: `{{LEAD_NUMBER}}` and verbatim `{{CLUSTER_NAME}}` in the
-  header above the simulation; `{{WIDGET_QUESTION}}` = the lead's
-  question; `{{HERO_POS}}` cycles 1, 2, 3, 1, … so each simulation crops
-  a different region of the homepage screenshot.
-- **Page 1 answer conversion** (`answer_text` → `{{WIDGET_ANSWER_HTML}}`):
+- **Question pages**: EVERY lead gets its own page — a widget-on-homepage
+  simulation. Per page: `{{LEAD_NUMBER}}` and verbatim `{{CLUSTER_NAME}}`
+  in the header above the simulation; `{{WIDGET_QUESTION}}` = the lead's
+  question. The `intro` block (h1 + lede) stays ONLY on `q1.html` —
+  delete it (markers included) on every later question page. All pages
+  share the same `homepage.png`, cropped from the top, so the prospect's
+  header, logo, and branding are visible on every mockup.
+- **Answer conversion** (`answer_text` → `{{WIDGET_ANSWER_HTML}}`):
   - Split into paragraphs on blank lines; lines starting `- ` become
     `<ul><li>` groups. Bold section headers like `Main steps (from the
     posts)` become `<p><strong>…</strong></p>`.
@@ -110,7 +115,9 @@ copies:
 
 ### 5. Render
 
-    node .claude/skills/demo-pdf/scripts/render_pdf.mjs demo_pdf/<prospect>/demo.pdf demo_pdf/<prospect>/build/page1.html demo_pdf/<prospect>/build/page2.html demo_pdf/<prospect>/build/page3.html
+    node .claude/skills/demo-pdf/scripts/render_pdf.mjs demo_pdf/<prospect>/demo.pdf demo_pdf/<prospect>/build/q1.html demo_pdf/<prospect>/build/q2.html demo_pdf/<prospect>/build/q3.html demo_pdf/<prospect>/build/page2.html demo_pdf/<prospect>/build/page3.html
+
+(One `qN.html` argument per lead, in `lead_order`, before `page2.html`.)
 
 ### 6. QA (all must pass before you call it done)
 
@@ -119,20 +126,22 @@ Read `demo.pdf` (Read tool) and check every page:
 - [ ] No `�` anywhere (also `grep -c '�'` each filled HTML → 0).
 - [ ] Every cluster label matches its CSV `cluster_name` exactly (diff by
       eye against the csv_to_json output).
-- [ ] Page 1: one widget-on-homepage simulation per lead, each with the
-      real homepage visible behind the widget (NO dimming or gray
-      backdrop) at a different scroll position; each widget shows that
-      lead's full answer ending in numbered source chips, with the
+- [ ] Question pages: one page per lead, each a widget-on-homepage
+      simulation with the real homepage visible behind the widget (NO
+      dimming or gray backdrop), cropped from the TOP so the prospect's
+      header, logo, and branding show on every page; each widget shows
+      that lead's full answer ending in numbered source chips, with the
       confidence indicator and thumbs up/down row visible under the
-      bubble; verbatim cluster chip above each simulation; the intro
-      copy never claims the widget IS installed (it says what it looks
-      like WHEN installed — the footer disclosure depends on that
-      distinction).
-- [ ] Page 2: 5 clusters, correct featured one, all numbers `X`/`+XX%`.
-- [ ] Page 3: single gap card, plain-text `Covers:` lines, bridge line
-      closes the card, no CTA.
+      bubble; verbatim cluster chip above each simulation; h1 + lede on
+      the first question page only; the intro copy never claims the
+      widget IS installed (it says what it looks like WHEN installed —
+      the footer disclosure depends on that distinction).
+- [ ] Intent-clusters page: 5 clusters, correct featured one, all
+      numbers `X`/`+XX%`.
+- [ ] Content-gaps page: single gap card, plain-text `Covers:` lines,
+      bridge line closes the card, no CTA.
 - [ ] No clipped text, no overflowing boxes, no blank regions.
 - [ ] Footer band ("Visitor Intelligence · demo mockup — <site>")
-      present on page 1.
+      present on every question page.
 
 Fix and re-render until all boxes check. Report the QA result explicitly.
