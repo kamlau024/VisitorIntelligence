@@ -43,11 +43,11 @@ next-env.d.ts
 # walkthrough videos
 /walkthrough
 
-# demo-pdf prospect folders: inputs are irreplaceable untracked user data;
-# only the generated demo.pdf deliverable is ever tracked
-demo_pdf/*/*
-!demo_pdf/*/demo.pdf
+# demo-pdf prospect folders: real prospect data and generated sales PDFs
+# never belong in the repo
+/demo_pdf/
 .superpowers/
+.remember/
 
 # demo-pdf skill: local deps and packaged zip
 .claude/skills/demo-pdf/node_modules/

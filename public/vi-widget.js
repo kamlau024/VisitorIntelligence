@@ -12,9 +12,18 @@
   if (window.__viWidgetMounted) return;
   window.__viWidgetMounted = true;
 
+  // Escape for HTML text/attribute contexts. The widget builds markup with
+  // innerHTML, so anything sourced from the host page must pass through here.
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
   var script = document.currentScript;
   var siteId = (script && script.getAttribute("data-site-id")) || "demo";
-  var brand = (script && script.getAttribute("data-brand")) || "Maya";
+  // Every use of `brand` below is an HTML sink, so it is stored pre-escaped.
+  var brand = esc((script && script.getAttribute("data-brand")) || "Maya");
 
   // --- tiny knowledge base (mirrors the app's canned answers) ---
   var SUGGESTIONS = [

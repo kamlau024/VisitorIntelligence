@@ -1,6 +1,5 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import fs from "node:fs";
 import { decodeMixed, parseCsv, csvToRecords } from "../scripts/csv_to_json.mjs";
 
 test("decodeMixed passes clean UTF-8 through", () => {
@@ -35,18 +34,4 @@ test("parseCsv handles quotes, escaped quotes, embedded commas and newlines, CRL
 test("csvToRecords maps header to trimmed values", () => {
   const recs = csvToRecords(Buffer.from("name, url \nAlpha , https://x.test/a \n", "utf-8"));
   assert.deepEqual(recs, [{ name: "Alpha", url: "https://x.test/a" }]);
-});
-
-test("csvToRecords parses the real example page1 CSV", (t) => {
-  const csvPath = "demo_pdf/example-prospect/page1_leads.csv";
-  if (!fs.existsSync(csvPath)) return t.skip("example fixture CSV not present (untracked user data)");
-  const buf = fs.readFileSync(csvPath);
-  const recs = csvToRecords(buf);
-  assert.equal(recs.length, 3);
-  assert.deepEqual(
-    recs.map((r) => r.lead_order),
-    ["1", "2", "3"]
-  );
-  assert.ok(recs[0].answer_text.length > 1000);
-  assert.equal(recs[0].target_homepage_url, "https://www.example-blog.com/");
 });
