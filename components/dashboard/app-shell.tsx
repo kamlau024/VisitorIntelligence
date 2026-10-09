@@ -31,10 +31,10 @@ const NAV = [
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
   const pathname = usePathname();
-
-  React.useEffect(() => { setMobileOpen(false); }, [pathname]);
+  // Remember which route opened the drawer; navigating anywhere closes it.
+  const [openedOn, setOpenedOn] = React.useState<string | null>(null);
+  const mobileOpen = openedOn === pathname;
 
   return (
     <div className="min-h-screen lg:grid lg:grid-cols-[260px_1fr]">
@@ -46,9 +46,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* mobile drawer */}
       {mobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-ink/40 backdrop-blur-[2px]" onClick={() => setMobileOpen(false)} />
+          <div className="absolute inset-0 bg-ink/40 backdrop-blur-[2px]" onClick={() => setOpenedOn(null)} />
           <aside className="absolute left-0 top-0 flex h-full w-[280px] flex-col border-r border-line bg-surface-2 animate-rise">
-            <button onClick={() => setMobileOpen(false)} className="absolute right-3 top-3 rounded-md p-1.5 text-ink-subtle hover:bg-paper-2">
+            <button onClick={() => setOpenedOn(null)} className="absolute right-3 top-3 rounded-md p-1.5 text-ink-subtle hover:bg-paper-2">
               <X className="size-4" />
             </button>
             <SidebarInner pathname={pathname} />
@@ -59,7 +59,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <div className="flex min-w-0 flex-col">
         {/* top bar */}
         <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-line bg-paper/85 px-4 backdrop-blur lg:px-7">
-          <button onClick={() => setMobileOpen(true)} className="rounded-md p-2 text-ink-muted hover:bg-surface-2 lg:hidden">
+          <button onClick={() => setOpenedOn(pathname)} className="rounded-md p-2 text-ink-muted hover:bg-surface-2 lg:hidden">
             <Menu className="size-5" />
           </button>
 

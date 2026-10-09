@@ -5,6 +5,8 @@ import {
   ResponsiveContainer, AreaChart, Area, BarChart, Bar, XAxis, YAxis,
   CartesianGrid, Tooltip, Cell, PieChart, Pie,
 } from "recharts";
+import type { TooltipContentProps } from "recharts";
+import type { NameType, ValueType } from "recharts/types/component/DefaultTooltipContent";
 import { CHART, axisProps, gridProps } from "@/lib/design/chart";
 import { money } from "@/lib/utils";
 
@@ -14,17 +16,19 @@ function fmtValue(v: number, f?: ValueFormat) {
   return f === "currency" ? money(v) : v.toLocaleString();
 }
 
-function ThemedTooltip({ active, payload, label, valueFormat }: any) {
+type ThemedTooltipProps = Partial<TooltipContentProps<ValueType, NameType>> & { valueFormat?: ValueFormat };
+
+function ThemedTooltip({ active, payload, label, valueFormat }: ThemedTooltipProps) {
   if (!active || !payload?.length) return null;
   return (
     <div className="rounded-lg border border-line-strong bg-surface px-3 py-2 text-xs shadow-lg">
       {label && <div className="mb-1 font-medium text-ink">{label}</div>}
-      {payload.map((p: any, i: number) => (
+      {payload.map((p, i) => (
         <div key={i} className="flex items-center gap-2 text-ink-muted">
           <span className="size-2 rounded-full" style={{ background: p.color || p.fill }} />
           <span className="capitalize">{p.name}:</span>
           <span className="font-semibold tnum text-ink">
-            {fmtValue(p.value, valueFormat)}
+            {fmtValue(Number(p.value), valueFormat)}
           </span>
         </div>
       ))}
@@ -40,7 +44,7 @@ function shortDate(d: string) {
 export function AreaTrend({
   data, dataKey, color = CHART.clay, height = 240, valueFormat,
 }: {
-  data: any[];
+  data: object[];
   dataKey: string;
   color?: string;
   height?: number;
@@ -107,7 +111,7 @@ export function RevenuePie({
   );
 }
 
-export function MiniArea({ data, dataKey, color = CHART.clay }: { data: any[]; dataKey: string; color?: string }) {
+export function MiniArea({ data, dataKey, color = CHART.clay }: { data: object[]; dataKey: string; color?: string }) {
   const id = React.useId().replace(/:/g, "");
   return (
     <ResponsiveContainer width="100%" height={48}>

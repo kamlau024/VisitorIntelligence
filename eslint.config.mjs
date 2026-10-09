@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Local tooling state, not project source:
+    ".remember/**",
+    ".claude/skills/*/node_modules/**",
   ]),
 ]);
 

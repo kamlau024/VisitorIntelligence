@@ -277,9 +277,11 @@ function BountyModal({
   const [phase, setPhase] = React.useState<"form" | "paying" | "done">("form");
   const [email, setEmail] = React.useState("");
 
-  React.useEffect(() => {
+  const [prevAnswer, setPrevAnswer] = React.useState(answer);
+  if (answer !== prevAnswer) {
+    setPrevAnswer(answer);
     if (answer) { setPhase("form"); setPrice(3); setEmail(""); }
-  }, [answer]);
+  }
 
   function pay() {
     setPhase("paying");

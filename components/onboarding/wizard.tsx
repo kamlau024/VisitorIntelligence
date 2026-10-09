@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import {
-  Globe, Search, Sparkles, Mic, Code2, PartyPopper, Loader2,
+  Globe, Search, Mic, Code2, PartyPopper, Loader2,
   ArrowRight, ArrowLeft, Check, ShieldCheck, FileText, Link2, X,
 } from "lucide-react";
 import { Wordmark } from "@/components/brand";

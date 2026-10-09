@@ -39,7 +39,7 @@ function Section({ icon: Icon, title, desc, children }: { icon: React.ElementTyp
   );
 }
 
-function Seg({ options, value, onChange }: { options: (string | number)[]; value: string | number; onChange: (v: any) => void }) {
+function Seg<T extends string | number>({ options, value, onChange }: { options: T[]; value: T; onChange: (v: T) => void }) {
   return (
     <div className="inline-flex rounded-lg border border-line-strong bg-paper-2 p-0.5">
       {options.map((o) => (

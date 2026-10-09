@@ -248,7 +248,11 @@ function FullDraftDialog({
   onSent: (g: ContentGap) => void;
 }) {
   const [phase, setPhase] = React.useState<"offer" | "writing" | "done">("offer");
-  React.useEffect(() => { if (gap) setPhase("offer"); }, [gap]);
+  const [prevGap, setPrevGap] = React.useState(gap);
+  if (gap !== prevGap) {
+    setPrevGap(gap);
+    if (gap) setPhase("offer");
+  }
 
   const article = gap ? fullArticleFor(gap.id) : null;
 

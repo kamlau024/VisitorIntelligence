@@ -215,7 +215,7 @@
     scroll();
   }
 
-  function addAnswer(a, q) {
+  function addAnswer(a) {
     var r = document.createElement("div");
     r.className = "row";
     var conf = CONF[a.confidence];
@@ -253,7 +253,7 @@
     setTimeout(function () {
       var t = root.getElementById("vi-typing");
       if (t) t.remove();
-      addAnswer(findAnswer(q), q);
+      addAnswer(findAnswer(q));
     }, 1000);
   }
 
