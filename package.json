@@ -1,7 +1,7 @@
 {
   "name": "visitor-intelligence",
   "version": "0.1.0",
-  "description": "Turn the questions visitors ask on a publisher's site into first-party intent, revenue, and content direction. High-fidelity product prototype.",
+  "description": "Turn the questions visitors ask on a publisher's site into first-party intent, revenue, and content direction. Proof-of-concept prototype with mock data; not a working application.",
   "private": true,
   "license": "MIT",
   "engines": {

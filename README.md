@@ -1,14 +1,28 @@
 # Visitor Intelligence
 
-**Turn the questions readers ask on a creator's site into first-party intent, revenue, and content direction.**
+**A proof-of-concept prototype: turning the questions readers ask on a creator's site into first-party intent, revenue, and content direction.**
 
 [![CI](https://github.com/kamlau024/VisitorIntelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/kamlau024/VisitorIntelligence/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-c2552f.svg)](LICENSE)
 ![Next.js 16](https://img.shields.io/badge/Next.js-16-211c18)
 ![React 19](https://img.shields.io/badge/React-19-211c18)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-211c18)
+![Status: proof of concept](https://img.shields.io/badge/status-proof%20of%20concept-b07d2b)
 
-**[Live demo →](https://visitorintelligence.vercel.app)** · [Try the widget](https://visitorintelligence.vercel.app/demo) · [Open the dashboard](https://visitorintelligence.vercel.app/dashboard)
+**[Clickable prototype →](https://visitorintelligence.vercel.app)** · [Try the widget](https://visitorintelligence.vercel.app/demo) · [Open the dashboard](https://visitorintelligence.vercel.app/dashboard)
+
+> [!IMPORTANT]
+> **This is a proof-of-concept prototype, not a working application.** It is a
+> high-fidelity, fully clickable mockup built to explore and validate the product idea
+> after ~3 months of research. Every screen and state is real UI, but:
+>
+> - **All data is mock data:** a typed dataset for a fictional food blog, *The Weeknight Kitchen*.
+> - **The widget's answers are canned,** matched by keyword. There is no AI or LLM behind them.
+> - **Nothing is connected:** no site crawling, accounts, payments, or affiliate tracking.
+>   Actions like verifying an install, paying a bounty, or sending a draft to WordPress
+>   only simulate the outcome.
+>
+> The code is structured so a real backend could slot in behind the existing types.
 
 ![Landing page](docs/screenshots/landing.jpg)
 
@@ -20,16 +34,13 @@ Google's AI Overviews now answer recipe and how-to questions directly on the res
 page, so independent creators lose the visit, the affiliate click, and any signal about
 what their audience actually wanted.
 
-Visitor Intelligence puts an **author-voiced answer engine on the creator's own pages**.
-Every question a reader asks becomes *first-party visitor intent*: clustered, tied to
-affiliate revenue, and turned into a ranked list of posts the creator should write next.
+Visitor Intelligence is a concept for putting an **author-voiced answer engine on the
+creator's own pages**. Every question a reader asks would become *first-party visitor
+intent*: clustered, tied to affiliate revenue, and turned into a ranked list of posts the
+creator should write next. This prototype shows what that product would look like and how
+it would behave.
 
-> **Status:** a high-fidelity, fully clickable product prototype built from ~3 months of
-> product research. Every screen and state is real UI. The data is a typed mock dataset
-> for a fictional food blog, *The Weeknight Kitchen*. There is no LLM or crawling backend
-> yet; the UI is structured so those slot in behind the existing types.
-
-## What's inside
+## What the prototype shows
 
 | Surface | Route | What it shows |
 |---|---|---|
@@ -71,7 +82,9 @@ affiliate revenue, and turned into a ranked list of posts the creator should wri
   </tr>
 </table>
 
-## How it fits together
+## How it would work
+
+The intended product loop, as the prototype depicts it:
 
 ```mermaid
 flowchart LR
@@ -89,15 +102,16 @@ flowchart LR
     Post -->|crawled into the<br/>answer index| Widget
 ```
 
-The loop closes: the questions readers ask decide what the creator writes next, and the
-new posts make the widget's answers better.
+The loop would close: the questions readers ask decide what the creator writes next, and
+the new posts make the widget's answers better.
 
 ## Engineering highlights
 
 - **A CMS-agnostic embed.** [`public/vi-widget.js`](public/vi-widget.js) is a dependency-free
   script that mounts into an isolated **Shadow DOM**, so the host theme's CSS can't break the
-  widget and the widget can't leak styles into the host page. One `<script>` tag works on
-  WordPress, Squarespace, Ghost, Webflow, Shopify, or plain HTML.
+  widget and the widget can't leak styles into the host page. The embed mechanism itself
+  is real: one `<script>` tag mounts it on any HTML page (see `/embed-test.html`). Its
+  answers come from a small canned set.
 - **Server components by default.** Dashboard pages render on the server. Interactive pieces
   (charts, dialogs, the widget) are small client islands. Chart formatters are passed as a
   string flag (`"currency"`) rather than a function, so client charts can be used from server
@@ -181,7 +195,7 @@ public/vi-widget.js     Standalone embeddable widget (Shadow DOM)
   inconsistently, so the dashboard leads with attributable clicks and labels revenue as
   *modeled*.
 
-## Roadmap (out of scope for the prototype)
+## What a working version would need
 
 A retrieval-augmented answer backend over the creator's archive, a real site crawler, auth
 and multi-site accounts, Stripe billing, affiliate-network attribution, and later vertical
