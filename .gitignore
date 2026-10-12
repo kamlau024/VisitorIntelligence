@@ -40,8 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# walkthrough videos
-/walkthrough
 
 # demo-pdf prospect folders: real prospect data and generated sales PDFs
 # never belong in the repo
