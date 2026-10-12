@@ -203,9 +203,12 @@ packs and sponsored answers.
 
 ## About
 
-<!-- TODO(Kam): 2–4 sentences in your own voice — why you built this, what you were
-     exploring, and what you'd build next. This is the paragraph a hiring manager
-     remembers. -->
+Visitor Intelligence grew out of about three months of research into how AI answer
+engines are cutting independent creators off from their readers. I built this clickable
+prototype to test whether the idea holds together end to end, from the on-page widget
+through intent clustering and affiliate attribution to a ranked list of content gaps,
+before committing to a backend. The next step would be the retrieval-augmented answer
+engine over a creator's archive, since that is the part the prototype only simulates.
 
 ## License
 
