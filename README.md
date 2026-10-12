@@ -26,6 +26,10 @@
 
 ![Landing page](docs/screenshots/landing.jpg)
 
+Below is a AI generated demo video:
+https://github.com/user-attachments/assets/516daddb-ff90-4bcb-867f-fe09d31a6000
+
+
 ---
 
 ## The problem
